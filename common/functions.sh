@@ -13,7 +13,9 @@ abort() {
 }
 
 cleanup() {
-  rm -rf $MODPATH/common 2>/dev/null
+  rm -rf $MODPATH/addon 2>/dev/null
+  rm -rf $MODPATH/functions.sh 2>/dev/null
+  rm -rf $MODPATH/install.sh 2>/dev/null
 }
 
 device_check() {
