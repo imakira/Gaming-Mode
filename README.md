@@ -1,15 +1,37 @@
-##### GameMods | Magisk Module
+<h1 align="center">Magisk Module Template Extended (MMT-Ex)</h1>
 
-##### Contact: [Akira](https://t.me/AkiraRelease)
+<div align="center">
+  <!-- Version -->
+    <img src="https://img.shields.io/badge/Version-v1.6-blue.svg?longCache=true&style=popout-square"
+      alt="Version" />
+  <!-- Last Updated -->
+    <img src="https://img.shields.io/badge/Updated-September 12, 2020-green.svg?longCache=true&style=flat-square"
+      alt="_time_stamp_" />
+  <!-- Min Magisk -->
+    <img src="https://img.shields.io/badge/MinMagisk-20.0-red.svg?longCache=true&style=flat-square"
+      alt="_time_stamp_" /></div>
 
-##### Disclaimer: Naturally, you take all the responsibility for what happens to your device when you start messing around with things. I (Akira) will not be responsible for ANY damage caused to anyone's devices due to the use of this module.
+<div align="center">
+  <strong>MMT Extended is the spiritual successor of Unity and makes magisk module creation easy. More details in the 
+    <a href="https://github.com/Zackptg5/MMT-Extended/wiki">wiki</a>.
+</div>
 
-##### Yes, works on all ROMs and on all firmwares.
+<div align="center">
+  <h3>
+    <a href="https://github.com/Zackptg5/MMT-Extended">
+      Source Code
+    </a>
+    <span> | </span>
+    <a href="https://github.com/Zackptg5/MMT-Extended-Addons">
+      Addons Repository
+    </a>
+    <span> | </span>
+    <a href="https://forum.xda-developers.com/apps/magisk/magisk-module-template-extended-mmt-ex-t4029819">
+      XDA
+    </a>
+  </h3>
+</div>
 
-##### ✓ INSTALLATION: Just flash via Magisk and reboot
-
-#### - ChangeLog -
-
-### Version Code: C1
-
-- Initial Release
+### Usage
+- [Follow the directions here (DO NOT FORK)](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template)
+- Then follow instructions in [Wiki](https://github.com/Zackptg5/MMT-Extended/wiki)
