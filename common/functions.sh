@@ -13,9 +13,7 @@ abort() {
 }
 
 cleanup() {
-  rm -rf $MODPATH/addon 2>/dev/null
-  rm -rf $MODPATH/functions.sh 2>/dev/null
-  rm -rf $MODPATH/install.sh 2>/dev/null
+  rm -rf $MODPATH/common 2>/dev/null
 }
 
 device_check() {
@@ -185,9 +183,22 @@ fi
 
 ### Install
 ui_print "- Installing"
-
-[ -f "$MODPATH/common/install.sh" ] && . $MODPATH/common/install.sh
-
+cat << "EOF"
+    ____     __       __                ___          
+   / __/__  / /__    / /  ___ _  _____ / (_)__  ___ _
+  _\ \/ _ \/ / _ \  / /__/ -_) |/ / -_) / / _ \/ _ `/
+ /___/\___/_/\___/ /____/\__/|___/\__/_/_/_//_/\_, / 
+                                              /___/ 
+EOF
+sleep 0.5
+ui_print "- Device : $(getprop ro.product.system.manufacturer) "
+sleep 0.5
+ui_print "- Processor : $(getprop ro.product.board) "
+sleep 0.5
+ui_print "- Android Version : $(getprop ro.build.version.release) "
+sleep 0.5
+ui_print "- Kernel : $(uname -r) "
+ui_print ""
 ui_print "   Installing for $ARCH SDK $API device..."
 # Remove comments from files and place them, add blank line to end if not already present
 for i in $(find $MODPATH -type f -name "*.sh" -o -name "*.prop" -o -name "*.rule"); do
