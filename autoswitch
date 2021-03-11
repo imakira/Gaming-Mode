@@ -1,8 +1,7 @@
 #!/system/bin/sh
-# Do not remove credit if you're using a part of this mod to your module.
-# WeAreRavenS
+# Do not remove credit if you're using a part of this mod to your module
 # Modified Gaming Mode Script from @HafizZiq
-# by @WeAreRavenS
+# by @akira_vishal and @WeAreRavenS
 echo "GameMods Applied Excecuted on $(date +"%d-%m-%Y %r" )" >> /storage/emulated/0/mods.log
 ravens=/sys/devices/system/cpu
 cpu_governors=$ravens/cpu0/cpufreq/scaling_available_governors
