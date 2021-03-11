@@ -2,25 +2,40 @@
 # Do not remove credit if you're using a part of this mod to your module
 # Modified Gaming Mode Script from @HafizZiq
 # by @akira_vishal and @WeAreRavenS
-echo "GameMods (SDM 625/636/660) Excecuted on $(date +"%d-%m-%Y %r" )" >> /storage/emulated/0/mods.log
-ravens=/sys/devices/system/cpu
-cpu_governors=$ravens/cpu0/cpufreq/scaling_available_governors
-cpu_freq=$ravens/cpu4/cpufreq/scaling_available_frequencies
-cpu_freq0=$ravens/cpu0/cpufreq/scaling_available_frequencies
-cpu_max=$ravens/cpu4/cpufreq/cpuinfo_max_freq
-cpu_min=$ravens/cpu4/cpufreq/cpuinfo_min_freq
-setmin0=`cat $ravens/cpu0/cpufreq/cpuinfo_min_freq`
-setmin4=`cat $ravens/cpu4/cpufreq/cpuinfo_min_freq`
-setmax0=`cat $ravens/cpu0/cpufreq/cpuinfo_max_freq`
-setmax4=`cat $ravens/cpu4/cpufreq/cpuinfo_max_freq`
-gpumx=/sys/class/kgsl/kgsl-3d0/num_pwrlevels
-io_scheduler=/sys/block/mmcblk0/queue/scheduler
+echo "GameMods Excecuted on $(date +"%d-%m-%Y %r" )" >> /storage/emulated/0/mods.log
+if [ -e /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors ]; then
+ cpu_governors=/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors
+fi
+if [ -e /sys/devices/system/cpu/cpu4/cpufreq/scaling_available_frequencies ]; then
+ cpu_freq=/sys/devices/system/cpu/cpu4/cpufreq/scaling_available_frequencies
+fi
+if [ -e /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies ]; then
+ cpu_freq0=/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies
+fi
+if [ -e /sys/devices/system/cpu/cpu4/cpufreq/cpuinfo_max_freq ]; then
+ cpu_max=/sys/devices/system/cpu/cpu4/cpufreq/cpuinfo_max_freq
+fi
+if [ -e /sys/devices/system/cpu/cpu4/cpufreq/cpuinfo_min_freq ]; then
+ cpu_min=/sys/devices/system/cpu/cpu4/cpufreq/cpuinfo_min_freq
+fi
+if [ -e /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq ]; then
+ setmin0=`cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq`
+fi
+if [ -e /sys/devices/system/cpu/cpu4/cpufreq/cpuinfo_min_freq ]; then
+ setmin4=`cat /sys/devices/system/cpu/cpu4/cpufreq/cpuinfo_min_freq`
+fi
+if [ -e /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq ]; then
+ setmax0=`cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq`
+fi
+if [ -e /sys/devices/system/cpu/cpu4/cpufreq/cpuinfo_max_freq ]; then
+ setmax4=`cat /sys/devices/system/cpu/cpu4/cpufreq/cpuinfo_max_freq`
+fi
+if [ -e /sys/block/mmcblk0/queue/scheduler ]; then
+ io_scheduler=/sys/block/mmcblk0/queue/scheduler
+fi
 ext4blocks="/sys/fs/ext4/mmcblk0p*"
-setprop debug.egl.buffcount 4
-echo "0" > /proc/sys/vm/oom_kill_allocating_task
 while true; do
  if [ $(top -n 1 -d 1 | head -n 12 | grep -o -e 'feralinteractive' -e 'takashi' -e 'netmarble' -e 'yoozoogames' -e 'riotgames' -e 'joymax' -e 'deadeffect' -e 'warface' -e 'com.my' -e 'pnixgames' -e '.gamedevltd' -e 'napoleongames' -e 'datealive' -e 'mobile' -e 'indra' -e 'efun' -e 'gamedevltd' -e 'tapenjoy' -e 'warface' -e 'skynet' -e 'ppsspp' -e 'ubisoft' -e 'camouflaj' -e 'zlongame' -e 'archosaur' -e 'sea' -e 'YoStarEN' -e 'roblox' -e 'com.pixel.gun3d' -e 'cputhrottlingtest' -e 'innersloth' -e 'damonplay' -e 'codm' -e 'legends' -e 'pearlabyss' -e 'activision' -e 'callofduty' -e 'com.wb.goog' -e 'nexon' -e 'ea.game' -e 'konami' -e 'bandainamco' -e 'netease' -e 'MAME' -e 'netmarble' -e 'GoogleCam' -e 'edengames' -e 'Supercell' -e 'camera' -e 'snapcam' -e 'tencent' -e 'moonton' -e 'sega' -e 'gravity' -e 'hutchgames' -e 'madfingergames' -e 'efun' -e 'miHoYo' -e 'squareenix' -e 'telltalegames' -e 'kakaogames' -e 'nekki' -e 'klab' -e 'telltalegames' -e 'linegames' -e 'naturalmotion' -e 'ggplay' -e 'emagroups' -e 'ganeragames' -e 'gameloft' -e 'supercell' -e 'netease' -e 'freefireth' -e 'garena' | head -n 1) ]; then
-    	    echo "3" > /proc/sys/vm/drop_caches
             echo "1" > /sys/devices/system/cpu/cpu0/online
             echo "1" > /sys/devices/system/cpu/cpu4/online
             chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
@@ -100,19 +115,7 @@ while true; do
             if [ -e /sys/class/kgsl/kgsl-3d0/devfreq/adrenoboost ]; then
                 echo "3" > /sys/class/kgsl/kgsl-3d0/devfreq/adrenoboost
             fi
-            if grep '4' $gpumx; then
-                echo "1" > /sys/class/kgsl/kgsl-3d0/min_pwrlevel
-            elif grep '5' $gpumx; then
-                echo "2" > /sys/class/kgsl/kgsl-3d0/min_pwrlevel
-            elif grep '6' $gpumx; then
-                echo "3" > /sys/class/kgsl/kgsl-3d0/min_pwrlevel
-            elif grep '7' $gpumx; then
-                echo "4" > /sys/class/kgsl/kgsl-3d0/min_pwrlevel
-            elif grep '8' $gpumx; then
-                echo "5" > /sys/class/kgsl/kgsl-3d0/min_pwrlevel
-            elif grep '9' $gpumx; then
-                echo "6" > /sys/class/kgsl/kgsl-3d0/min_pwrlevel
-            fi
+            echo "370000000" > /sys/class/kgsl/kgsl-3d0/devfreq/min_freq
             echo "0" > /sys/class/kgsl/kgsl-3d0/throttling
             echo "1" > /sys/class/kgsl/kgsl-3d0/force_clk_on
             echo "1" > /sys/class/kgsl/kgsl-3d0/force_bus_on
@@ -125,6 +128,7 @@ while true; do
                 echo "N" > /sys/module/adreno_idler/parameters/adreno_idler_active
             fi
             if [ -d /sys/module/dsboost/parameters ]; then
+                echo "256" > /sys/module/cpu_input_boost/parameters/input_boost_duration
                 echo "256" > /sys/module/dsboost/parameters/input_boost_duration
                 echo "50" > /sys/module/dsboost/parameters/input_stune_boost
                 echo "50" > /sys/module/dsboost/parameters/sched_stune_boost
@@ -161,13 +165,13 @@ while true; do
                 echo "0" > /sys/module/msm_thermal/core_control/enabled
             fi
             if [ -e /sys/module/sync/parameters/fsync_enabled ]; then
-                echo "N" > /sys/module/sync/parameters/fsync_enabled
+                echo "Y" > /sys/module/sync/parameters/fsync_enabled
             fi
             if [ -d /proc/sys/fs ]; then
                 echo "5" > /proc/sys/fs/lease-break-time
             fi
             if [ -e /sys/kernel/dyn_fsync/Dyn_fsync_active ]; then
-                echo "1" > /sys/kernel/dyn_fsync/Dyn_fsync_active
+                echo "0" > /sys/kernel/dyn_fsync/Dyn_fsync_active
             fi
             if [ -e /sys/module/mmc_core/parameters/use_spi_crc ]; then
                 echo '0' > /sys/module/mmc_core/parameters/use_spi_crc
@@ -185,29 +189,20 @@ while true; do
             fi
             if [ -d /sys/module/lowmemorykiller/parameters ]; then
                 chmod 0644 sys/module/lowmemorykiller/parameters/*
-                echo "1" > /sys/module/lowmemorykiller/parameters/enable_lmk
-                echo "0,100,200,300,800,906" > /sys/module/lowmemorykiller/parameters/adj
-                echo "28677,38236,47795,105149,143385,152944" > /sys/module/lowmemorykiller/parameters/minfree
-                echo "1" > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
-                echo "1" > /sys/module/lowmemorykiller/parameters/lmk_fast_run
+                echo "0,258,417,676,824,1000" > /sys/module/lowmemorykiller/parameters/adj
+                echo "6999,13998,20997,27996,34955,41994" > /sys/module/lowmemorykiller/parameters/minfree
+                echo "0" > /sys/module/lowmemorykiller/parameters/lmk_fast_run
             fi
-            sysctl -w vm.compact_unevictable_allowed=0
-            sysctl -w vm.dirty_background_ratio=10
-            sysctl -w vm.dirty_ratio=80
-            sysctl -w vm.dirty_expire_centisecs=12000
-            sysctl -w vm.dirty_writeback_centisecs=0
-            sysctl -w vm.extfrag_threshold=750
-            sysctl -w vm.oom_dump_tasks=0
-            sysctl -w vm.page-cluster=0
-            sysctl -w vm.reap_mem_on_sigkill=1
-            sysctl -w vm.stat_interval=10
-            sysctl -w vm.swappiness=100
-            sysctl -w vm.vfs_cache_pressure=100
-            sysctl -w vm.watermark_scale_factor=100
-            resetprop ro.sys.fw.bg_apps_limit 20
-            resetprop ro.vendor.qti.sys.fw.bg_apps_limit 20
-            resetprop ro.vendor.qti.sys.fw.bservice_limit 20
-    	    echo "1" > /proc/sys/vm/drop_caches
+            echo "75" > /proc/sys/vm/swappiness
+            echo "6732" > /proc/sys/vm/min_free_kbytes
+            echo "21542" > /proc/sys/vm/extra_free_kbytes
+            echo "100" > /proc/sys/vm/vfs_cache_pressure
+            echo "250" > /proc/sys/vm/dirty_expire_centisecs
+            echo "800" > /proc/sys/vm/dirty_writeback_centisecs
+            echo "5" > /proc/sys/vm/dirty_background_ratio
+            echo "10" > /proc/sys/vm/dirty_ratio
+            resetprop ro.sys.fw.bg_apps_limit 34
+            resetprop ro.vendor.qti.sys.fw.bg_apps_limit 34
             echo "performance" > /sys/class/devfreq/cc00000.qcom,vidc:venus_bus_ddr/governor
             echo "performance" > /sys/class/devfreq/mmc0/governor
             echo "performance" > /sys/class/devfreq/mmc1/governor
@@ -294,20 +289,14 @@ while true; do
                 echo "1401600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
                 echo "1401600" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
                 echo "0:1401600 1:1401600 2:1401600 3:1401600 4:1401600 5:1401600 6:1401600 7:1401600" > /sys/module/msm_performance/parameters/cpu_max_freq
-                  echo "1401600" > /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq
-                  echo "1401600" > /sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq
             elif grep '1958400' $cpu_freq; then
                   echo "1401600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
                   echo "1401600" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
                   echo "0:1401600 1:1401600 2:1401600 3:1401600 4:1401600 5:1401600 6:1401600 7:1401600" > /sys/module/msm_performance/parameters/cpu_max_freq
-                  echo "1401600" > /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq
-                  echo "1401600" > /sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq
             elif grep '1958400' $cpu_max; then
                   echo "1401600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
                   echo "1401600" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
                   echo "0:1401600 1:1401600 2:1401600 3:1401600 4:1401600 5:1401600 6:1401600 7:1401600" > /sys/module/msm_performance/parameters/cpu_max_freq
-                  echo "1401600" > /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq
-                  echo "1401600" > /sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq
             else
                   echo "1612800" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
                   echo "1747200" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
@@ -345,19 +334,7 @@ while true; do
             if [ -e /sys/class/kgsl/kgsl-3d0/devfreq/adrenoboost ]; then
                 echo "0" > /sys/class/kgsl/kgsl-3d0/devfreq/adrenoboost
             fi
-            if grep '4' $gpumx; then
-                echo "3" > /sys/class/kgsl/kgsl-3d0/min_pwrlevel
-            elif grep '5' $gpumx; then
-                echo "4" > /sys/class/kgsl/kgsl-3d0/min_pwrlevel
-            elif grep '6' $gpumx; then
-                echo "5" > /sys/class/kgsl/kgsl-3d0/min_pwrlevel
-            elif grep '7' $gpumx; then
-                echo "6" > /sys/class/kgsl/kgsl-3d0/min_pwrlevel
-            elif grep '8' $gpumx; then
-                echo "7" > /sys/class/kgsl/kgsl-3d0/min_pwrlevel
-            elif grep '9' $gpumx; then
-                echo "8" > /sys/class/kgsl/kgsl-3d0/min_pwrlevel
-            fi
+            echo "160000000" > /sys/class/kgsl/kgsl-3d0/devfreq/min_freq
             echo "1" > /sys/class/kgsl/kgsl-3d0/throttling
             echo "0" > /sys/class/kgsl/kgsl-3d0/force_clk_on
             echo "0" > /sys/class/kgsl/kgsl-3d0/force_bus_on
@@ -366,7 +343,7 @@ while true; do
             if [ -d /sys/module/adreno_idler/parameters ]; then
                 echo "Y" > /sys/module/adreno_idler/parameters/adreno_idler_active
                 echo "35" > /sys/module/adreno_idler/parameters/adreno_idler_downdifferential
-                echo "10" > /sys/module/adreno_idler/parameters/adreno_idler_idlewait
+                echo "25" > /sys/module/adreno_idler/parameters/adreno_idler_idlewait
                 echo "10000" > /sys/module/adreno_idler/parameters/adreno_idler_idleworkload
             fi
             if [ -d /sys/module/dsboost/parameters ]; then
@@ -401,7 +378,7 @@ while true; do
                 echo "1" > /dev/stune/top-app/schedtune.prefer_idle
             fi
             echo "64" > /proc/sys/kernel/random/read_wakeup_threshold
-            echo "128" > /proc/sys/kernel/random/write_wakeup_threshold
+            echo "896" > /proc/sys/kernel/random/write_wakeup_threshold
             if [ -e /sys/module/msm_thermal/core_control/enabled ]; then
                 echo "1" > /sys/module/msm_thermal/core_control/enabled
             fi
@@ -430,28 +407,20 @@ while true; do
             fi
             if [ -d /sys/module/lowmemorykiller/parameters ]; then
                 chmod 0644 sys/module/lowmemorykiller/parameters/*
-                echo "0" > /sys/module/lowmemorykiller/parameters/enable_lmk
                 echo "0,258,417,676,824,1000" > /sys/module/lowmemorykiller/parameters/adj
                 echo "6999,13998,20997,27996,34955,41994" > /sys/module/lowmemorykiller/parameters/minfree
-                echo "0" > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
                 echo "0" > /sys/module/lowmemorykiller/parameters/lmk_fast_run
             fi
-            sysctl -w vm.compact_unevictable_allowed=0
-            sysctl -w vm.dirty_background_ratio=10
-            sysctl -w vm.dirty_ratio=30
-            sysctl -w vm.dirty_expire_centisecs=1000
-            sysctl -w vm.dirty_writeback_centisecs=0
-            sysctl -w vm.extfrag_threshold=750
-            sysctl -w vm.oom_dump_tasks=0
-            sysctl -w vm.page-cluster=0
-            sysctl -w vm.reap_mem_on_sigkill=1
-            sysctl -w vm.stat_interval=10
-            sysctl -w vm.swappiness=80
-            sysctl -w vm.vfs_cache_pressure=200
-            sysctl -w vm.watermark_scale_factor=100
-            resetprop ro.sys.fw.bg_apps_limit 160
-            resetprop ro.vendor.qti.sys.fw.bg_apps_limit 160
-            resetprop ro.vendor.qti.sys.fw.bservice_limit 160
+            echo "1" > /proc/sys/vm/swappiness
+            echo "6732" > /proc/sys/vm/min_free_kbytes
+            echo "21542" > /proc/sys/vm/extra_free_kbytes
+            echo "20" > /proc/sys/vm/vfs_cache_pressure
+            echo "500" > /proc/sys/vm/dirty_expire_centisecs
+            echo "3000" > /proc/sys/vm/dirty_writeback_centisecs
+            echo "10" > /proc/sys/vm/dirty_background_ratio
+            echo "20" > /proc/sys/vm/dirty_ratio
+            resetprop ro.sys.fw.bg_apps_limit 44
+            resetprop ro.vendor.qti.sys.fw.bg_apps_limit 44
             echo "venus-ddr-gov" > /sys/class/devfreq/cc00000.qcom,vidc:venus_bus_ddr/governor
             echo "simple_ondemand" > /sys/class/devfreq/mmc0/governor
             echo "simple_ondemand" > /sys/class/devfreq/mmc1/governor

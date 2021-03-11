@@ -3,5 +3,5 @@ name=GameMods
 version=vFINAL
 versionCode=69
 author=akira-vishal
-description=null
+description=GameMods that will get applied automatically when the game starts.
 support=https://github.com/akira-vishal/GameMods.git
