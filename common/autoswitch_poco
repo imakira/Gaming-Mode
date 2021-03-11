@@ -1,0 +1,297 @@
+#!/system/bin/sh
+# Do not remove credit if you're using a part of this mod to your module
+# Modified Gaming Mode Script from @HafizZiq
+# by @akira_vishal and @WeAreRavenS
+echo "GameMods (Beryllium) Excecuted on $(date +"%d-%m-%Y %r" )" >> /storage/emulated/0/mods.log
+ravens=/sys/devices/system/cpu
+cpu_governors=$ravens/cpu0/cpufreq/scaling_available_governors
+cpu_freq=$ravens/cpu4/cpufreq/scaling_available_frequencies
+cpu_freq0=$ravens/cpu0/cpufreq/scaling_available_frequencies
+cpu_max=$ravens/cpu4/cpufreq/cpuinfo_max_freq
+cpu_min=$ravens/cpu4/cpufreq/cpuinfo_min_freq
+setmin0=`cat $ravens/cpu0/cpufreq/cpuinfo_min_freq`
+setmin4=`cat $ravens/cpu4/cpufreq/cpuinfo_min_freq`
+setmax0=`cat $ravens/cpu0/cpufreq/cpuinfo_max_freq`
+setmax4=`cat $ravens/cpu4/cpufreq/cpuinfo_max_freq`
+gpumx=/sys/class/kgsl/kgsl-3d0/num_pwrlevels
+io_scheduler=/sys/block/mmcblk0/queue/scheduler
+ext4blocks="/sys/fs/ext4/mmcblk0p*"
+setprop debug.egl.buffcount 4
+echo "0" > /proc/sys/vm/oom_kill_allocating_task
+while true; do
+ if [ $(top -n 1 -d 1 | head -n 12 | grep -o -e 'feralinteractive' -e 'takashi' -e 'netmarble' -e 'yoozoogames' -e 'riotgames' -e 'joymax' -e 'deadeffect' -e 'warface' -e 'com.my' -e 'pnixgames' -e '.gamedevltd' -e 'napoleongames' -e 'datealive' -e 'mobile' -e 'indra' -e 'efun' -e 'gamedevltd' -e 'tapenjoy' -e 'warface' -e 'skynet' -e 'ppsspp' -e 'ubisoft' -e 'camouflaj' -e 'zlongame' -e 'archosaur' -e 'sea' -e 'YoStarEN' -e 'roblox' -e 'com.pixel.gun3d' -e 'cputhrottlingtest' -e 'innersloth' -e 'damonplay' -e 'codm' -e 'legends' -e 'pearlabyss' -e 'activision' -e 'callofduty' -e 'com.wb.goog' -e 'nexon' -e 'ea.game' -e 'konami' -e 'bandainamco' -e 'netease' -e 'MAME' -e 'netmarble' -e 'GoogleCam' -e 'edengames' -e 'Supercell' -e 'camera' -e 'snapcam' -e 'tencent' -e 'moonton' -e 'sega' -e 'gravity' -e 'hutchgames' -e 'madfingergames' -e 'efun' -e 'miHoYo' -e 'squareenix' -e 'telltalegames' -e 'kakaogames' -e 'nekki' -e 'klab' -e 'telltalegames' -e 'linegames' -e 'naturalmotion' -e 'ggplay' -e 'emagroups' -e 'ganeragames' -e 'gameloft' -e 'supercell' -e 'netease' -e 'freefireth' -e 'garena' | head -n 1) ]; then
+            echo "3" > /proc/sys/vm/drop_caches
+            echo "1" > /sys/devices/system/cpu/cpu0/online
+            echo "1" > /sys/devices/system/cpu/cpu4/online
+            chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+            chmod 0644 /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor 
+            chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+            chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+            chmod 0644 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+            chmod 0644 /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+                echo "schedutil" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+                chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/schedutil/*
+                echo "25000" > /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us
+                echo "500" > /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us
+                echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/schedutil/iowait_boost_enable
+                echo "schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
+                chmod 0644 /sys/devices/system/cpu/cpu4/cpufreq/schedutil/*
+                echo "25000" > /sys/devices/system/cpu/cpu4/cpufreq/schedutil/down_rate_limit_us
+                echo "500" > /sys/devices/system/cpu/cpu4/cpufreq/schedutil/up_rate_limit_us
+                echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/schedutil/iowait_boost_enable
+            echo "$setmax0" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+            echo "$setmax0" > /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq
+            echo "$setmax4" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+            echo "$setmax4" > /sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq
+            echo "0:$setmax0 1:$setmax0 2:$setmax0 3:$setmax0 4:$setmax4 5:$setmax4 6:$setmax4 7:$setmax4" > /sys/module/msm_performance/parameters/cpu_max_freq
+                echo "0:576000 1:576000 2:576000 3:576000 4:825600 5:825600 6:825600 7:825600" > /sys/module/msm_performance/parameters/cpu_min_freq
+                echo "576000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+                echo "825600" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+                echo "576000" > /sys/devices/system/cpu/cpufreq/policy0/scaling_min_freq
+                echo "825600" > /sys/devices/system/cpu/cpufreq/policy4/scaling_min_freq
+            echo 2 > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
+            if grep 'deadline' $io_scheduler; then
+                echo "deadline" > /sys/block/mmcblk0/queue/scheduler
+                echo "deadline" > /sys/block/mmcblk1/queue/scheduler
+            else
+                echo "maple" > /sys/block/mmcblk0/queue/scheduler
+                echo "maple" > /sys/block/mmcblk1/queue/scheduler
+            fi
+            echo "cfq" > /sys/block/sda/queue/scheduler
+            echo '256' > /sys/block/sda/queue/read_ahead_kb
+            echo "512" > /sys/block/mmcblk0/queue/read_ahead_kb
+            echo "0" > /sys/block/mmcblk0/queue/iostats
+            echo "0" > /sys/block/mmcblk0/queue/add_random
+            echo "2" > /sys/block/mmcblk0/queue/rq_affinity
+            echo "5" > /sys/class/kgsl/kgsl-3d0/devfreq/polling_interval
+            if [ -e /sys/class/kgsl/kgsl-3d0/devfreq/adrenoboost ]; then
+                echo "3" > /sys/class/kgsl/kgsl-3d0/devfreq/adrenoboost
+            fi
+            echo "820000000" > /sys/class/kgsl/kgsl-3d0/devfreq/max_freq
+            echo "0" > /sys/class/kgsl/kgsl-3d0/throttling
+            echo "1" > /sys/class/kgsl/kgsl-3d0/force_clk_on
+            echo "1" > /sys/class/kgsl/kgsl-3d0/force_bus_on
+            echo "1" > /sys/class/kgsl/kgsl-3d0/force_rail_on
+            echo "1" > /sys/class/kgsl/kgsl-3d0/force_no_nap
+            if [ -d /sys/module/adreno_idler/parameters ]; then
+                echo "20" > /sys/module/adreno_idler/parameters/adreno_idler_downdifferential
+                echo "99" > /sys/module/adreno_idler/parameters/adreno_idler_idlewait
+                echo "5" > /sys/module/adreno_idler/parameters/adreno_idler_idleworkload
+                echo "N" > /sys/module/adreno_idler/parameters/adreno_idler_active
+            fi
+            if [ -d /sys/module/dsboost/parameters ]; then
+                echo "256" > /sys/module/dsboost/parameters/input_boost_duration
+                echo "50" > /sys/module/dsboost/parameters/input_stune_boost
+                echo "50" > /sys/module/dsboost/parameters/sched_stune_boost
+                echo "256" > /sys/module/dsboost/parameters/cooldown_boost_duration
+                echo "10" > /sys/module/dsboost/parameters/cooldown_stune_boost
+            fi
+            if [ -d /sys/module/cpu_boost/parameters ]; then
+                echo "256" > /sys/module/cpu_boost/parameters/input_boost_ms
+                echo "256" > /sys/module/cpu_boost/parameters/input_boost_ms_s2
+                echo "50" > /sys/module/cpu_boost/parameters/dynamic_stune_boost
+            fi
+            if [ -d /sys/module/cpu_input_boost/parameters ]; then
+                echo "0" > /sys/module/cpu_input_boost/parameters/input_boost_freq_hp
+                echo "748800" > /sys/module/cpu_input_boost/parameters/input_boost_freq_lp
+                echo "1766400" > /sys/module/cpu_input_boost/parameters/max_boost_freq_lp
+                echo "1996800" > /sys/module/cpu_input_boost/parameters/max_boost_freq_hp
+                echo "50" > /sys/module/cpu_input_boost/parameters/dynamic_stune_boost
+                echo "256" > /sys/module/cpu_input_boost/parameters/input_boost_duration
+                echo "50" > /sys/module/cpu_input_boost/parameters/general_stune_boost
+            fi
+            if [ -e /sys/module/msm_performance/parameters/touchboost ]; then
+                echo "1" > /sys/module/msm_performance/parameters/touchboost
+            fi
+            if [ -e /sys/power/pnpmgr/touch_boost ]; then
+                echo "1" > /sys/power/pnpmgr/touch_boost
+            fi
+            if [ -d /dev/stune ]; then
+                echo "45" > /dev/stune/schedtune.boost
+                echo "45" > /dev/stune/top-app/schedtune.boost
+                echo "50" > /dev/stune/top-app/schedtune.sched_boost
+                echo "0" > /dev/stune/top-app/schedtune.prefer_idle
+            fi
+            echo "1024" > /proc/sys/kernel/random/read_wakeup_threshold
+            echo "2048" > /proc/sys/kernel/random/write_wakeup_threshold
+            if [ -e /sys/module/msm_thermal/core_control/enabled ]; then
+                echo "0" > /sys/module/msm_thermal/core_control/enabled
+            fi
+            if [ -e /sys/module/sync/parameters/fsync_enabled ]; then
+                echo "Y" > /sys/module/sync/parameters/fsync_enabled
+            fi
+            if [ -d /proc/sys/fs ]; then
+                echo "5" > /proc/sys/fs/lease-break-time
+            fi
+            if [ -e /sys/kernel/dyn_fsync/Dyn_fsync_active ]; then
+                echo "0" > /sys/kernel/dyn_fsync/Dyn_fsync_active
+            fi
+            if [ -e /sys/module/mmc_core/parameters/use_spi_crc ]; then
+                echo '0' > /sys/module/mmc_core/parameters/use_spi_crc
+            fi
+            if [ -d /proc/sys/kernel ]; then
+                echo "1" > /proc/sys/kernel/sched_boost
+                echo "0" > /proc/sys/kernel/sched_child_runs_first
+                echo "0" > /proc/sys/kernel/timer_migration
+            fi
+            if [ -e /sys/module/workqueue/parameters/power_efficient ]; then
+                echo "0" > /sys/module/workqueue/parameters/power_efficient
+            fi
+            if [ -e /sys/devices/system/cpu/sched_mc_power_savings ]; then
+                echo "0" > /sys/devices/system/cpu/sched_mc_power_savings
+            fi
+            if [ -d /sys/module/lowmemorykiller/parameters ]; then
+                chmod 0644 sys/module/lowmemorykiller/parameters/*
+                echo "1" > /sys/module/lowmemorykiller/parameters/enable_lmk
+                echo "0,100,200,300,800,906" > /sys/module/lowmemorykiller/parameters/adj
+                echo "28677,38236,47795,105149,143385,152944" > /sys/module/lowmemorykiller/parameters/minfree
+                echo "1" > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
+                echo "1" > /sys/module/lowmemorykiller/parameters/lmk_fast_run
+            fi
+            echo "75" > /proc/sys/vm/swappiness
+            echo "6732" > /proc/sys/vm/min_free_kbytes
+            echo "21542" > /proc/sys/vm/extra_free_kbytes
+            echo "100" > /proc/sys/vm/vfs_cache_pressure
+            echo "250" > /proc/sys/vm/dirty_expire_centisecs
+            echo "800" > /proc/sys/vm/dirty_writeback_centisecs
+            echo "5" > /proc/sys/vm/dirty_background_ratio
+            echo "10" > /proc/sys/vm/dirty_ratio
+    	    echo "1" > /proc/sys/vm/drop_caches
+ else
+            echo "1" > /sys/devices/system/cpu/cpu0/online
+            echo "1" > /sys/devices/system/cpu/cpu4/online
+            chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+            chmod 0644 /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
+            chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+            chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+            chmod 0644 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+            chmod 0644 /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+                echo "schedutil" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+                chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/schedutil/*
+                echo "1000" > /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us
+                echo "20000" > /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us
+                echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/schedutil/iowait_boost_enable
+                echo "schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
+                chmod 0644 /sys/devices/system/cpu/cpu4/cpufreq/schedutil/*
+                echo "1000" > /sys/devices/system/cpu/cpu4/cpufreq/schedutil/down_rate_limit_us
+                echo "20000" > /sys/devices/system/cpu/cpu4/cpufreq/schedutil/up_rate_limit_us
+                echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/schedutil/iowait_boost_enable
+                echo "1766400" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+                echo "1996800" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+                echo "0:1766400 1:1766400 2:1766400 3:1766400 4:1996800 5:1996800 6:1996800 7:1996800" > /sys/module/msm_performance/parameters/cpu_max_freq
+                echo "0:300000 1:300000 2:300000 3:300000 4:825600 5:825600 6:825600 7:825600" > /sys/module/msm_performance/parameters/cpu_min_freq
+                echo "300000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+                echo "825600" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+                echo "300000" > /sys/devices/system/cpu/cpufreq/policy0/scaling_min_freq
+                echo "825600" > /sys/devices/system/cpu/cpufreq/policy4/scaling_min_freq
+                echo "1766400" > /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq
+                echo "1996800" > /sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq
+            echo "cfq" > /sys/block/sda/queue/scheduler
+            echo '64' > /sys/block/sda/queue/read_ahead_kb
+            echo 0 > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
+            if grep 'anxiety' $io_scheduler; then
+                echo "anxiety" > /sys/block/mmcblk0/queue/scheduler
+                echo "anxiety" > /sys/block/mmcblk1/queue/scheduler
+            else
+                echo "cfq" > /sys/block/mmcblk0/queue/scheduler
+                echo "cfq" > /sys/block/mmcblk1/queue/scheduler
+            fi
+            echo "128" > /sys/block/mmcblk0/queue/read_ahead_kb
+            echo "0" > /sys/block/mmcblk0/queue/iostats
+            echo "0" > /sys/block/mmcblk0/queue/add_random
+            echo "0" > /sys/block/mmcblk0/queue/rq_affinity
+            echo "10" > /sys/class/kgsl/kgsl-3d0/devfreq/polling_interval
+            if [ -e /sys/class/kgsl/kgsl-3d0/devfreq/adrenoboost ]; then
+                echo "0" > /sys/class/kgsl/kgsl-3d0/devfreq/adrenoboost
+            fi
+            echo "596000000" > /sys/class/kgsl/kgsl-3d0/devfreq/max_freq
+            echo "1" > /sys/class/kgsl/kgsl-3d0/throttling
+            echo "0" > /sys/class/kgsl/kgsl-3d0/force_clk_on
+            echo "0" > /sys/class/kgsl/kgsl-3d0/force_bus_on
+            echo "0" > /sys/class/kgsl/kgsl-3d0/force_rail_on
+            echo "0" > /sys/class/kgsl/kgsl-3d0/force_no_nap
+            if [ -d /sys/module/adreno_idler/parameters ]; then
+                echo "Y" > /sys/module/adreno_idler/parameters/adreno_idler_active
+                echo "35" > /sys/module/adreno_idler/parameters/adreno_idler_downdifferential
+                echo "10" > /sys/module/adreno_idler/parameters/adreno_idler_idlewait
+                echo "10000" > /sys/module/adreno_idler/parameters/adreno_idler_idleworkload
+            fi
+            if [ -d /sys/module/dsboost/parameters ]; then
+                echo "0" > /sys/module/dsboost/parameters/input_boost_duration
+                echo "0" > /sys/module/dsboost/parameters/input_stune_boost
+                echo "0" > /sys/module/dsboost/parameters/sched_stune_boost
+                echo "0" > /sys/module/dsboost/parameters/cooldown_boost_duration
+                echo "0" > /sys/module/dsboost/parameters/cooldown_stune_boost
+            fi
+            if [ -d /sys/module/cpu_boost/parameters ]; then
+                echo "0" > /sys/module/cpu_boost/parameters/input_boost_ms
+                echo "0" > /sys/module/cpu_boost/parameters/input_boost_ms_s2
+                echo "0" > /sys/module/cpu_boost/parameters/dynamic_stune_boost
+            fi
+            if [ -d /sys/module/cpu_input_boost/parameters ]; then
+                echo "0" > /sys/module/cpu_input_boost/parameters/input_boost_freq_hp
+                echo "576000" > /sys/module/cpu_input_boost/parameters/input_boost_freq_lp
+                echo "1766400" > /sys/module/cpu_input_boost/parameters/max_boost_freq_lp
+                echo "0" > /sys/module/cpu_input_boost/parameters/max_boost_freq_hp
+                echo "0" > /sys/module/cpu_input_boost/parameters/dynamic_stune_boost
+                echo "0" > /sys/module/cpu_input_boost/parameters/input_boost_duration
+                echo "0" > /sys/module/cpu_input_boost/parameters/general_stune_boost
+            fi
+            if [ -e /sys/module/msm_performance/parameters/touchboost ]; then
+                echo "0" > /sys/module/msm_performance/parameters/touchboost
+            fi
+            if [ -e /sys/power/pnpmgr/touch_boost ]; then
+                echo "0" > /sys/power/pnpmgr/touch_boost
+            fi
+            if [ -d /dev/stune ]; then
+                echo "0" > /dev/stune/schedtune.boost
+                echo "5" > /dev/stune/top-app/schedtune.boost
+                echo "5" > /dev/stune/top-app/schedtune.sched_boost
+                echo "1" > /dev/stune/top-app/schedtune.prefer_idle
+            fi
+            echo "64" > /proc/sys/kernel/random/read_wakeup_threshold
+            echo "128" > /proc/sys/kernel/random/write_wakeup_threshold
+            if [ -e /sys/module/msm_thermal/core_control/enabled ]; then
+                echo "1" > /sys/module/msm_thermal/core_control/enabled
+            fi
+            if [ -e /sys/module/sync/parameters/fsync_enabled ]; then
+                echo "Y" > /sys/module/sync/parameters/fsync_enabled
+            fi
+            if [ -d /proc/sys/fs ]; then
+                echo "25" > /proc/sys/fs/lease-break-time
+            fi
+            if [ -e /sys/kernel/dyn_fsync/Dyn_fsync_active ]; then
+                echo "0" > /sys/kernel/dyn_fsync/Dyn_fsync_active
+            fi
+            if [ -e /sys/module/mmc_core/parameters/use_spi_crc ]; then
+                echo "0" > echo '1' > /sys/module/mmc_core/parameters/use_spi_crc
+            fi
+            if [ -d /proc/sys/kernel ]; then
+                echo "0" > /proc/sys/kernel/sched_boost
+                echo "1" > /proc/sys/kernel/sched_child_runs_first
+                echo "1" > /proc/sys/kernel/timer_migration
+            fi
+            if [ -e /sys/module/workqueue/parameters/power_efficient ]; then
+                echo "1" > /sys/module/workqueue/parameters/power_efficient
+            fi
+            if [ -e /sys/devices/system/cpu/sched_mc_power_savings ]; then
+                echo "2" > /sys/devices/system/cpu/sched_mc_power_savings
+            fi
+            if [ -d /sys/module/lowmemorykiller/parameters ]; then
+                chmod 0644 sys/module/lowmemorykiller/parameters/*
+                echo "0" > /sys/module/lowmemorykiller/parameters/enable_lmk
+                echo "0,258,417,676,824,1000" > /sys/module/lowmemorykiller/parameters/adj
+                echo "6999,13998,20997,27996,34955,41994" > /sys/module/lowmemorykiller/parameters/minfree
+                echo "0" > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
+                echo "0" > /sys/module/lowmemorykiller/parameters/lmk_fast_run
+            fi
+            echo "1" > /proc/sys/vm/swappiness
+            echo "6732" > /proc/sys/vm/min_free_kbytes
+            echo "21542" > /proc/sys/vm/extra_free_kbytes
+            echo "20" > /proc/sys/vm/vfs_cache_pressure
+            echo "500" > /proc/sys/vm/dirty_expire_centisecs
+            echo "3000" > /proc/sys/vm/dirty_writeback_centisecs
+            echo "10" > /proc/sys/vm/dirty_background_ratio
+            echo "20" > /proc/sys/vm/dirty_ratio
+ fi;
+done
